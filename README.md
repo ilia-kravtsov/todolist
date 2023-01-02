@@ -1,46 +1,48 @@
-# Getting Started with Create React App
+ctrl + shift + t открыть только что закрытую вкладку в браузере
+ctrl + z; ctr; + shift + z - туда сюда
+ctrl + space - додумывалка
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Создаем компоненту Todolist и выносим в отдельный файл
+Для выноса в отдельный файл используем F6
 
-## Available Scripts
+Если мы в jsx разметке указываем в атрибуте текст то достаточно обернуть его в кавычки 
+но вообще после знака = нужно ставить {}
 
-In the project directory, you can run:
+Если экспортируем компоненту по дефолту то в импорте можем менять название но тогда и этой компоненте нужно указывать
+наименование как в импорте что в целом вводит путаницу так что является бесполезной возможностью
 
-### `npm start`
+Экспортируем без дефолта
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Когда нам нужно затипизировать массив с объектами 
+нужно сначала создать типизацию для конкретного объекта в массиве и уже потом указывать это наименовение после
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+type TaskType = {
+    id: number
+    title: string
+    isDone: boolean
+}
 
-### `npm test`
+type PropsType = {
+   tasks : Array<TaskType> or TaskType[]
+}
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Искать проблему нужно в том числе на одно действие выше от ошибки
 
-### `npm run build`
+Чтобы не ошибиться во время описания объектов можем использовать уже написанную типизацию 
+в том числе и из других компонент
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Todolist.tsx
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+export type TaskType = {
+    id: number
+    title: string
+    isDone: boolean
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+App.tsx
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+let tasks_2: Array<TaskType> = [
+    {id: 1, title: 'satisfaction', isDone: true },
+    {id: 2, title: 'satisfaction', isDone: true },
+    {id: 3, title: 'satisfaction', isDone: false },
+]

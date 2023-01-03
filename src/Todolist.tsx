@@ -1,6 +1,7 @@
 import React from "react";
+import TodolistStyle from './Todolist.module.css'
 
-export type TaskType = {
+export type TaskDataType = {
     id: number
     title: string
     isDone: boolean
@@ -8,10 +9,12 @@ export type TaskType = {
 
 type TodolistType = {
     title: string
-    tasks: Array<TaskType>
+    tasksDataApp: Array<TaskDataType>
+    removeTask: Function
 }
 
 export function Todolist(props: TodolistType) {
+
     return (
         <div>
             <h3>{props.title}</h3>
@@ -20,9 +23,15 @@ export function Todolist(props: TodolistType) {
                 <button>+</button>
             </div>
             <ul>
-                <li><input type="checkbox" defaultChecked={props.tasks[0].isDone}/> <span>{props.tasks[0].title}</span></li>
-                <li><input type="checkbox" defaultChecked={props.tasks[1].isDone}/> <span>{props.tasks[1].title}</span></li>
-                <li><input type="checkbox" defaultChecked={props.tasks[2].isDone}/> <span>{props.tasks[2].title}</span></li>
+                {
+                    props.tasksDataApp.map((tasksDataAppItem) =>
+                        <li>
+                            <input type="checkbox" defaultChecked={tasksDataAppItem.isDone}/>
+                            <span>{tasksDataAppItem.title}</span>
+                            <button className={'deleteButton'} onClick={() => { props.removeTask(tasksDataAppItem.id) }}>x</button>
+                        </li>
+                    )
+                }
             </ul>
             <div>
                 <button>All</button>

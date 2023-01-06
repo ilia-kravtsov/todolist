@@ -1640,7 +1640,7 @@ c инпутом
 
 onClick
 onBlur - это когда фокус уходит из элемента 
-onKeyPress - это то что нам надо клавиша нажата 
+onKeyPress - это то что нам надо клавиша нажата и отпущена вверх
 onKeyDown - когда клавиша нажата но не отпущена вверх
 onKeyUp - когда клавиша была поднята 
 
@@ -1660,16 +1660,188 @@ onKeyPress - это то что объединяет onKeyDown и onKeyUp
 />
 
 Нам надо в этом объекте e достать кнопку которая была нажата
+Для этого через debugger определяем свойство charCode у той клавиши которая была нажата 
 
+altKey:false
+bubbles:true
+cancelable:true
+charCode:13
+code:"Enter"
+keyCode: всегда 0 на любой клавише
+charCode:13
 
+13 - значение клавиши Enter 
 
+Пишем условие в callback функции onKeyPress
 
+if (e.charCode === 13) {
 
+}
 
+если условия верно то выполняем тот же код который мы волняли для кнопки + 
+когда добавляли таску
 
+if (e.charCode === 13) {
+    props.addTask(inputTitle)
+    setInputTitle('')
+}
 
+В результате после написания текста в поле инпут и нажатия клавиши Enter код добавляется
+на страницу 
 
+То есть мы делаем одно и то же действие что при нажатии на кнопку enter что при нажатии на + 
 
+Сделаем интереснее и объявим что новая таска будет добавляться с помощью сочетания клавиш
+ctrl + enter
 
+if (e.ctrlKey && e.charCode === 13)
 
+теперь таска добавляется только при сочетании клавиш ctrl + enter
 
+_______________________________ Рефакторигн Todolist 
+
+Рефакторинг это изменение структуры кода без изменения поведения программы 
+Рефакторинг нужен для того чтобы человек который читает программму лучше в ней ориентровался
+
+Любой дурак может написать программу для машины, но далеко не каждый может написать программу для людей
+
+1. Выносим все функции которые у нас используются в Todolist необходимо вынести над return
+присвоить переменным и после return пользоваться ими как переменными
+
+первый атрибут инпуn который будем рефакторить - onChange
+
+let onNewTitleChangeHandler = (e) => {
+    setInputTitle(e.currentTarget.value)
+}
+
+указываем название переменной в место функции в коде ниже, без скобок
+
+onChange={onNewTitleChangeHandler()} - не правильно
+onChange={onNewTitleChangeHandler} - правильно
+
+потому что инпут сам вызовет эту функцию когда будет нужно
+
+но
+
+let onNewTitleChangeHandler = (e) => {
+    setInputTitle(e.currentTarget.value)
+}
+
+здесь e - event подчеркнется красным потому что для typescript его тип уже задан не так явно
+чем когда эта функция была задана в качестве callback в атрибуте инпут
+
+Поэтому чтобы узнать какая типизация устроит typescript 
+мы задаем для e явно не правильную типизацию e: number
+после чего смотрим на ошибки и в подсказках видим какую типизацию нужно указать для данного события event
+и получаем
+
+let onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputTitle(e.currentTarget.value)
+}
+
+таким образом typescript помогает мне задать правильную типизацию
+
+Не забываем импортировать новую типизацию из react
+
+тоже самое для onKeyPress
+
+let onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement> ) => {
+    if (e.ctrlKey && e.charCode === 13) {
+    props.addTask(inputTitle)
+    setInputTitle('')
+    }
+}
+
+onKeyPress={onKeyPressHandler}
+
+Если предлагает импортировать из dom или из react выбираем react
+
+далее рефакторим button onClick
+
+let addTask =  () => {
+    props.addTask(inputTitle)
+    setInputTitle('')
+}
+
+return (
+
+<button onClick={addTask}>+</button>
+
+то же самое для фильтров all active completed
+
+const onAllClickHandler = () => {props.changeFilter('all')}
+const onActiveClickHandler = () => {props.changeFilter('active')}
+const onCompletedClickHandler = () => {props.changeFilter('completed')}
+
+<button onClick={onAllClickHandler}>All</button>
+<button onClick={onActiveClickHandler}>Active</button>
+<button onClick={onCompletedClickHandler}>Completed</button>
+
+рефакторим map
+
+Функция удаления removeTask - не общая для всего Todolist 
+Функция удаления своя у каждой li
+Каждая li генерится map
+map вызывает стрелочную функцию внутри этой стрелочной функции мы передаем функцию callback 
+которую передаем каждой кнопке в отдельности
+то есть у нас много кнопок х и у каждой кнопки х свой callback 
+поэтому мы не можем вынести наверх 1 callback который подойдет всем 
+у каждой кнопки он свой 
+поэтому чтобы вынести таким же образом из map нам нужно добавить в 
+
+{
+    props.tasksForTodolist.map((task) =>
+    <li key={task.id}>
+    <input type="checkbox" defaultChecked={task.isDone}/>
+    <span>{task.title}</span>
+    <button onClick={() => {props.removeTask(task.id)}} className={'deleteButton'}>x</button>
+    </li>
+    )
+}
+
+->
+
+{
+props.tasksForTodolist.map((task) => {
+
+const onRemoveHandler = () => {
+    props.removeTask(task.id)
+}
+
+return (
+    <li key={task.id}>
+        <input type="checkbox" defaultChecked={task.isDone}/>
+        <span>{task.title}</span>
+        <button onClick={onRemoveHandler} className={'deleteButton'}>x
+        </button>
+    </li>
+)
+})
+}
+
+Итог 
+
+Наш стейт идеологически (не технически) - делится на 2 стейта 
+
+Bll state                                  UI state
+
+business - то о чем приложение, какая у него бизнес логика 
+бизнес логика означает - какая предметная область, о чем это приложение 
+
+business state в больших приложениях управляется редаксом 
+
+В проекте Todolist стейтом управляет App копмонент и его локальный useState 
+который в реакте позволяет управлять стейтом, локальный хук useState 
+который управляет business state 
+Тут же у нас появляется под компонента Todolist и у него тоже появляется аналогичный useState 
+Он нам нужен для того чтобы контролировать то значение которое у нас появляется в инпуте 
+
+Ничто визуально не может измениться на страничке если у нас не поменялись данные 
+поэтому мы сначала изменяем данные, измененные данные уже попадают в инпут
+если мы пытаемся что-то ввести в инпут то изменяем данные в стейте и только после этого
+они попадают в инпут flux круговорот 
+
+этот локальный стейт todolist понадобился чтобы управлять инпутом 
+и этот локальный стейт (данные которые находятся в нем) они не должны выходить в App
+компоненту потому что это еще не business логика 
+а вот когда мы нажмем на + тогда эти данные уже будут влиять на отрисовку 

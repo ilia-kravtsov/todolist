@@ -14,8 +14,6 @@ function App() {
         {id: v1(), title: 'satisfaction', isDone: false },
     ])
 
-    console.log(tasksUS)
-
     let [filter, setFilter] = useState<FilterValuesType>('all')
 
     function removeTask(id: string) {
@@ -23,10 +21,18 @@ function App() {
         setTasksUS(filteredTasksDataUS)
     }
 
-    function addTask(inputTitle: string) {
-        let newTask = {id: v1(), title: inputTitle, isDone: false}
+    function addTask(newTaskTitle: string) {
+        let newTask = {id: v1(), title: newTaskTitle, isDone: false}
         let newTasks = [newTask, ...tasksUS]
         setTasksUS(newTasks)
+    }
+
+    function changeStatus(taskId: string, isDone: boolean) {
+        let tasksCS = tasksUS.find((task) => task.id === taskId)
+        if(tasksCS) {
+            tasksCS.isDone = isDone
+        }
+        setTasksUS([...tasksUS])
     }
 
     function changeFilter(value: FilterValuesType) {
@@ -51,6 +57,8 @@ function App() {
                 removeTask={removeTask}
                 addTask={addTask}
                 changeFilter={changeFilter}
+                changeStatus={changeStatus}
+                filter={filter}
             />
         </div>
     );

@@ -21,9 +21,14 @@
 }
 
 .active-filter {
-  background-color: aquamarine;
+  background-color: lightgray;
 }
 
 .is-done {
   opacity: 0.5;
+}
+
+.buttonStyle {
+  border-radius: 7px;
+  border: 1px solid lightgray;
 }

@@ -1,34 +1,79 @@
 .App {
-  padding: 30px;
-  display: flex;
-  padding-left: 750px;
+  background: url(logo.svg);
+  background-size: contain;
 }
+/*.App {*/
+/*  padding: 30px;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  height: 1118px;*/
+/*}*/
 
-.App > div {
-  margin-right: 50px;
-}
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
 
-.App button {
-  margin-left: 5px;
-}
-
-.error {
-  border: red 1px solid;
-}
-
-.error-message {
-  color: red;
-}
-
-.active-filter {
-  background-color: lightgray;
-}
-
-.is-done {
-  opacity: 0.5;
-}
-
-.buttonStyle {
-  border-radius: 7px;
+button {
+  margin-left: 10px;
   border: 1px solid lightgray;
+  border-radius: 7px;
 }
+
+/*.active-filter {*/
+/*  background-color: lightgray;*/
+/*}*/
+
+input {
+  outline: none;
+  border: 1px solid lightgray;
+  border-radius: 7px;
+}
+
+ul {
+  list-style-type: square;
+}
+
+.is {
+  font-weight: bold;
+}
+
+.done {
+  opacity: 0.5;
+  font-weight: lighter;
+}
+
+.btn_active {
+  background: lightgray;
+  color: white;
+}
+
+/*.error {*/
+/*  border: 1px solid red;*/
+/*}*/
+
+/*.error_message {*/
+/*  color: red;*/
+/*  font-size: 12px;*/
+/*}*/
+.todolist {
+
+}
+
+.addItemForm {
+  border-radius: 3px;
+  height: 40px;
+  width: 300px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.defaultInput {
+  max-height: 27px;
+  max-width: 225px;
+}
+
+.defaultAdd {
+  height: 30px;
+  width: 30px;
+}
+

@@ -1,26 +1,17 @@
 import React, {ChangeEvent, FC, useRef, useState, KeyboardEvent} from 'react';
+import TasksList from "./TasksList";
 import {FilteredTasksType} from "./App";
-import AddItemForm from "./AddItemForm";
-import {useAutoAnimate} from "@formkit/auto-animate/react";
-import EditableSpan from "./EditableSpan";
-import {Button, ButtonGroup, Checkbox, IconButton} from "@mui/material";
-import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
-import DeleteIcon from '@mui/icons-material/Delete';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-
 
 export type TodolistPropsType = {
     todolistId: string
     title: string
     tasks: TaskType[]
     filter: FilteredTasksType
-    removeTodolist: (todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
+    removeTodolist: (todolistId: string) => void
     removeTask: (taskId: string, todolistId: string) => void
     changeTodolistFilter: (title: FilteredTasksType, todolistId: string) => void
-    changeTaskTitle: (taskId: string, title: string, todolistId: string) => void
     changeTasksStatus: (taskId: string, isDone: boolean, todolistId: string) => void
-    changeTodolistTitle: (title: string, todolistId: string) => void
 }
 
 export type TaskType = {
@@ -31,83 +22,47 @@ export type TaskType = {
 
 const Todolist: FC<TodolistPropsType> = (props): JSX.Element => {
 
-    const addTask = (title: string) => {
-        props.addTask(title, props.todolistId)
+    let [inputValue, setInputValue] = useState<string>('')
+    let [error, setError] = useState<boolean>(false)
+
+    const addTask = () => {
+        if (inputValue.trim() !== '') {
+            props.addTask(inputValue.trim(), props.todolistId)
+        } else {
+           setError(true)
+        }
+        setInputValue('')
+    }
+    const onChaneInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        error && setError(false)
+        setInputValue(event.currentTarget.value)
     }
     const removeTodolist = () => props.removeTodolist(props.todolistId)
+    const onKeyPressInputHandler = (event: KeyboardEvent<HTMLInputElement>) => event.charCode === 13 && addTask()
     const handlerCreator = (filter: FilteredTasksType): () => void => (): void => props.changeTodolistFilter(filter, props.todolistId)
-    const AllClassName = props.filter === 'all' ? 'secondary' : 'primary'
-    const ActiveClassName = props.filter === 'active' ? 'secondary' : 'primary'
-    const CompletedClassName = props.filter === 'completed' ? 'secondary' : 'primary'
-    const changeTodolistTitle = (title: string) => props.changeTodolistTitle(title, props.todolistId)
-
-    const [listRef] = useAutoAnimate<HTMLUListElement>()
-
-    const tasksItems: JSX.Element[] | JSX.Element =
-        props.tasks.length  // > 0 => ?
-            ? props.tasks.map((task) => {
-
-                const taskCSSClass = task.isDone ? 'done' : 'is'
-                const changeTasksStatus = (event: ChangeEvent<HTMLInputElement>) =>
-                {props.changeTasksStatus(task.id, event.currentTarget.checked, props.todolistId)}
-                const onClickButtonHandler = () => {props.removeTask(task.id, props.todolistId)}
-                const changeTaskTitle = (title: string) => props.changeTaskTitle(task.id, title, props.todolistId)
-
-                return (
-                    <li key={task.id} className={taskCSSClass}>
-                        <Checkbox checked={task.isDone}
-                                  onChange={changeTasksStatus}
-                                  size={'medium'}
-                        />
-                        <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
-                        <Button size={'small'}
-                                color={'primary'}
-                                onClick={onClickButtonHandler}
-                                endIcon={ <BackspaceOutlinedIcon />}
-                                variant={"contained"}
-                                sx={{m: '5px 0 5px 15px'}}
-                        >
-                            Del
-                        </Button>
-                    </li>
-                )
-            })
-            : <span>Your taskslist is empty</span>
+    const AllClassName = props.filter === 'all' ? 'btn_active' : ''
+    const ActiveClassName = props.filter === 'active' ? 'btn_active' : ''
+    const CompletedClassName = props.filter === 'completed' ? 'btn_active' : ''
+    const inputClass = error ? 'error' : ''
+    const errorMessage = error && <div className={'error_message'}>Title is required</div>
 
     return (
-        <div className={'todolist'}>
-            <h3><EditableSpan title={props.title} changeTitle={changeTodolistTitle}/>
-                <Button size={'small'}
-                        color={'primary'}
-                        endIcon={ <DeleteIcon />}
-                        onClick={removeTodolist}
-                        variant={'contained'}
-                        sx={{ml: '10px'}}
-                >
-                </Button>
-            </h3>
-            <AddItemForm addItem={addTask}/>
-            <ul ref={listRef}>
-                {tasksItems}
-            </ul>
+        <div>
+            <h3>{props.title}
+            <button onClick={removeTodolist}>x</button></h3>
             <div>
-                <ButtonGroup size={'small'}
-                             variant={'contained'}
-                             sx={{height: '30px'}}
-                             fullWidth
-                >
-                    <Button onClick={handlerCreator('all')}
-                            color={AllClassName}
-                            sx={{mr: '5px'}}
-                    >All</Button>
-                    <Button onClick={handlerCreator('active')}
-                            color={ActiveClassName}
-                            sx={{mr: '5px'}}
-                    >Active</Button>
-                    <Button onClick={handlerCreator('completed')}
-                            color={CompletedClassName}
-                    >Completed</Button>
-                </ButtonGroup>
+                <input value={inputValue}
+                       onChange={onChaneInputHandler}
+                       onKeyPress={onKeyPressInputHandler}
+                       className={inputClass}/>
+                <button onClick={addTask}>+</button>
+                {errorMessage}
+            </div>
+            <TasksList tasksData={props.tasks} removeTask={props.removeTask} changeTasksStatus={props.changeTasksStatus} todolistId={props.todolistId}/>
+            <div>
+                <button onClick={handlerCreator('all')} className={AllClassName}>All</button>
+                <button onClick={handlerCreator('active')} className={ActiveClassName}>Active</button>
+                <button onClick={handlerCreator('completed')} className={CompletedClassName}>Completed</button>
             </div>
         </div>
     );
@@ -208,6 +163,32 @@ const Todolist: FC<TodolistPropsType> = (props): JSX.Element => {
 
 export default Todolist;
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

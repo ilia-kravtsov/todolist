@@ -1,17 +1,7 @@
 .App {
-  background: url(logo.svg);
-  background-size: contain;
+  font-family: 'Lora', serif;
+  color: black;
 }
-/*.App {*/
-/*  padding: 30px;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  height: 1118px;*/
-/*}*/
-
-/*.App > div {*/
-/*  margin-right: 50px;*/
-/*}*/
 
 button {
   margin-left: 10px;
@@ -19,27 +9,23 @@ button {
   border-radius: 7px;
 }
 
-/*.active-filter {*/
-/*  background-color: lightgray;*/
-/*}*/
-
-input {
-  outline: none;
-  border: 1px solid lightgray;
-  border-radius: 7px;
-}
-
 ul {
-  list-style-type: square;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .is {
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .done {
   opacity: 0.5;
   font-weight: lighter;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .btn_active {
@@ -47,24 +33,15 @@ ul {
   color: white;
 }
 
-/*.error {*/
-/*  border: 1px solid red;*/
-/*}*/
-
-/*.error_message {*/
-/*  color: red;*/
-/*  font-size: 12px;*/
-/*}*/
 .todolist {
-
+  font-family: 'Lora', serif;
 }
 
 .addItemForm {
   border-radius: 3px;
-  height: 40px;
+  height: 43px;
   width: 300px;
   display: flex;
-  flex-wrap: wrap;
 }
 
 .defaultInput {
@@ -77,3 +54,52 @@ ul {
   width: 30px;
 }
 
+.editSpan {
+  font-size: 20px;
+}
+
+.todoH {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todoH:hover {
+  box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
+.todoSpan {
+  margin-left: 10px;
+}
+
+li:hover {
+  box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
+/*.white__label {*/
+/*  color: whitesmoke !important;*/
+/*}*/
+
+/*.App {*/
+/*  padding: 30px;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  height: 1118px;*/
+/*}*/
+
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
+/*.active-filter {*/
+/*  background-color: lightgray;*/
+/*}*/
+/*.error {*/
+/*  border: 1px solid red;*/
+/*}*/
+
+/*.error_message {*/
+/*  color: red;*/
+/*  font-size: 12px;*/
+/*}*/

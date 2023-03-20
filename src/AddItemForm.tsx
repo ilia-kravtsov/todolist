@@ -4,8 +4,8 @@ import React, {
     KeyboardEvent,
     useState
 } from 'react';
-import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
-import {Button, IconButton, TextField} from "@mui/material";
+import {Button, TextField} from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
 
 type AddItemFormType = {
     addItem: (title: string) => void
@@ -45,15 +45,15 @@ const AddItemForm: FC<AddItemFormType> = (props) => {
                        label={'Enter your title'}
                        error={error}
                        helperText={error && 'Please, enter your title'}
+                       InputLabelProps={{style: {fontFamily: 'Lora serif'}}}
             />
-            <Button endIcon={<DataSaverOnIcon/>}
+            <Button endIcon={<SendIcon/>}
                     onClick={addItem}
                     color={'primary'}
                     variant={'contained'}
-                    sx={{m: '5px 0 5px 10px'}}
+                    sx={{m: '5px 0 5px 17px'}}
                     className={'defaultAdd'}
             >
-                ADD
             </Button>
         </div>
     );

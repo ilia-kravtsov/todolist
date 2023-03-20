@@ -24,14 +24,14 @@ const EditableSpan: FC<EditableSpanType> = (props) => {
     return (
             editMode
             ? <TextField onBlur={offEditMode}
-                         onKeyPress={onKeyPress}
+                         onKeyUp={onKeyPress}
                          autoFocus
                          value={inputValue}
                          onChange={onChaneInputHandler}
                          variant={'standard'}
                          sx={{width: '120px'}}
             />
-            : <span onDoubleClick={onEditMode}>{props.title}</span>
+            : <span onDoubleClick={onEditMode} className={'editSpan'}>{props.title}</span>
     );
 };
 

@@ -1,13 +1,10 @@
-import React, {ChangeEvent, FC, useRef, useState, KeyboardEvent} from 'react';
+import React, {ChangeEvent, FC} from 'react';
 import {FilteredTasksType} from "./App";
 import AddItemForm from "./AddItemForm";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import EditableSpan from "./EditableSpan";
 import {Button, ButtonGroup, Checkbox, IconButton} from "@mui/material";
-import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-
 
 export type TodolistPropsType = {
     todolistId: string
@@ -60,15 +57,13 @@ const Todolist: FC<TodolistPropsType> = (props): JSX.Element => {
                                   size={'medium'}
                         />
                         <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
-                        <Button size={'small'}
-                                color={'primary'}
-                                onClick={onClickButtonHandler}
-                                endIcon={ <BackspaceOutlinedIcon />}
-                                variant={"contained"}
-                                sx={{m: '5px 0 5px 15px'}}
+                        <IconButton size={'small'}
+                                    color={'primary'}
+                                    onClick={onClickButtonHandler}
+                                    sx={{m: '5px 0 5px 15px'}}
                         >
-                            Del
-                        </Button>
+                            <DeleteIcon/>
+                        </IconButton>
                     </li>
                 )
             })
@@ -76,15 +71,15 @@ const Todolist: FC<TodolistPropsType> = (props): JSX.Element => {
 
     return (
         <div className={'todolist'}>
-            <h3><EditableSpan title={props.title} changeTitle={changeTodolistTitle}/>
-                <Button size={'small'}
+            <h3 className={'todoH'}>
+                <div className={'todoSpan'}><EditableSpan title={props.title} changeTitle={changeTodolistTitle}/></div>
+                <IconButton size={'small'}
                         color={'primary'}
-                        endIcon={ <DeleteIcon />}
                         onClick={removeTodolist}
-                        variant={'contained'}
                         sx={{ml: '10px'}}
                 >
-                </Button>
+                    <DeleteIcon/>
+                </IconButton>
             </h3>
             <AddItemForm addItem={addTask}/>
             <ul ref={listRef}>

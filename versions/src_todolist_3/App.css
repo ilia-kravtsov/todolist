@@ -1,0 +1,60 @@
+.App {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.App > div {
+  margin-right: 50px;
+}
+
+button {
+  margin-left: 10px;
+  border: 1px solid lightgray;
+  border-radius: 7px;
+}
+
+.error {
+  border: red 1px solid;
+}
+
+.error-message {
+  color: red;
+}
+
+.active-filter {
+  background-color: lightgray;
+}
+
+input {
+  outline: none;
+  border: 1px solid lightgray;
+  border-radius: 7px;
+}
+
+ul {
+  list-style-type: square;
+}
+
+.is {
+  font-weight: bold;
+}
+
+.done {
+  text-decoration: line-through;
+  opacity: 0.5;
+  font-weight: lighter;
+}
+
+.btn_active {
+  background: lightgray;
+  color: white;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+.error_message {
+  color: red
+}

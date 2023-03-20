@@ -9,13 +9,13 @@ import {Menu} from "@mui/icons-material";
 
 export type FilteredTasksType = 'all' | 'active' | 'completed'
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilteredTasksType
 }
 
-type TasksStateType = {
+export type TasksStateType = {
     [todolistId: string]: Array<TaskType>
 }
 
@@ -42,14 +42,14 @@ function App(): JSX.Element {
     })
 
     const changeTodolistFilter = (filter: FilteredTasksType, todolistId: string) => {
-        const updatedTodolists = todolists.map((todolist) =>
+        const updatedTodolistsFilter = todolists.map((todolist) =>
             todolist.id === todolistId ? {...todolist, filter: filter} : todolist)
-        setTodolists(updatedTodolists)
+        setTodolists(updatedTodolistsFilter)
     }
     const changeTodolistTitle = (title: string, todolistId: string) => {
-        const updatedTodolists = todolists.map((todolist) =>
+        const updatedTodolistsTitle = todolists.map((todolist) =>
             todolist.id === todolistId ? {...todolist, title: title} : todolist)
-        setTodolists(updatedTodolists)
+        setTodolists(updatedTodolistsTitle)
     }
     const removeTodolist = (todolistId: string) => {
         const updatedTodolists = todolists.filter((todolist) => todolist.id !== todolistId)
@@ -63,45 +63,23 @@ function App(): JSX.Element {
     }
 
     const removeTask = (taskId: string, todolistId: string) => {
-        // const tasksForUpdate = tasks[todolistId]
-        // const updatedTasks = tasksForUpdate.filter(task => task.id !== taskId)
-        // const copyTasks = {...tasks}
-        // copyTasks[todolistId] = updatedTasks
-        // setTasks(copyTasks)
-        //
         const updatedTasks = tasks[todolistId].filter(task => task.id !== taskId)
         setTasks({...tasks, [todolistId]: updatedTasks})
-        //
-        // setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)})
     }
     const addTask = (title: string, todolistId: string) => {
         const newTask: TaskType = {id: v1(), title: title, isDone: false}
-        // const tasksForUpdate = tasks[todolistId] // 3 tasks
-        // const updatedTasks = [newTask, ...tasksForUpdate] // 4 tasks
-        // const copyTasks = {...tasks}
-        // copyTasks[todolistId] = updatedTasks
-        // setTasks(copyTasks)
         const updatedTasks = [newTask, ...tasks[todolistId]]
         setTasks({...tasks, [todolistId]: updatedTasks})
-        //
-        // setTasks({...tasks, [todolistId]: [...tasks[todolistId], newTask]})
     }
     const changeTasksStatus = (taskId: string, isDone: boolean, todolistId: string) => {
-        // const tasksForUpdate = tasks[todolistId]
-        // const updatedTasks = tasksForUpdate.map(t => t.id === taskId ? {...t, isDone: isDone} : t)
-        // const copyTasks = {...tasks}
-        // copyTasks[todolistId] = updatedTasks
-        // setTasks(copyTasks)
-        //
         const updatedTasks = tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: isDone} : t)
         setTasks({...tasks, [todolistId]: updatedTasks})
-        //
-        // setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})}
     }
     const changeTaskTitle = (taskId: string, title: string, todolistId: string) => {
         const updatedTasks = tasks[todolistId].map(t => t.id === taskId ? {...t, title: title} : t)
         setTasks({...tasks, [todolistId]: updatedTasks})
     }
+
     const getFilteredTasksForRender = (
         (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
             switch (filter) {
@@ -120,7 +98,7 @@ function App(): JSX.Element {
             const filteredTasksForRender: Array<TaskType> = getFilteredTasksForRender(tasks[todolist.id], todolist.filter);
             return (
                 <Grid item>
-                    <Paper elevation={8} sx={{p: '20px'}}>
+                    <Paper elevation={8} sx={{p: '20px', backgroundColor: 'transparent', color: 'black'}}>
                         <Todolist key={todolist.id}
                                   title={todolist.title}
                                   todolistId={todolist.id}
@@ -142,27 +120,29 @@ function App(): JSX.Element {
 
     return (
         <div className="App">
-            <Paper elevation={5}><AppBar position={'static'}>
-                <Toolbar>
-                    <IconButton size={'large'}
-                                edge={'start'}
-                                color={'inherit'}
-                                aria-label={'menu'}
-                                sx={{mr: 2}}
-                    >
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant={'h6'} component={'div'} sx={{flexGrow: 1}}>
-                        Todolists
-                    </Typography>
-                    <Button color={'inherit'}>Login</Button>
-                </Toolbar>
-            </AppBar></Paper>
+            <Paper elevation={5}>
+                <AppBar position={'static'}>
+                    <Toolbar>
+                        <IconButton size={'large'}
+                                    edge={'start'}
+                                    color={'inherit'}
+                                    aria-label={'menu'}
+                                    sx={{mr: 2}}
+                        >
+                            <Menu/>
+                        </IconButton>
+                        <Typography variant={'h6'} component={'div'} sx={{flexGrow: 1}}>
+                            Todolists
+                        </Typography>
+                        <Button color={'inherit'}>Login</Button>
+                    </Toolbar>
+                </AppBar>
+            </Paper>
             <Container fixed>
-                <Grid container
-                      sx={{p: '10px 0'}}
-                >
-                    <Paper elevation={5}><AddItemForm addItem={addTodolist}/></Paper>
+                <Grid container sx={{p: '10px 0'}}>
+                    <Paper elevation={5} sx={{backgroundColor: 'transparent', input: { color: 'white' } }}>
+                        <AddItemForm addItem={addTodolist}/>
+                    </Paper>
                 </Grid>
                 <Grid container spacing={2}>
                     {todolistComponents}
@@ -200,4 +180,42 @@ React.useState() - вызов useState как метода объекта React
 useEffect(() => {
         console.log(tasksData)
     }, filter)
+
+     const removeTask = (taskId: string, todolistId: string) => {
+        // const tasksForUpdate = tasks[todolistId]
+        // const updatedTasks = tasksForUpdate.filter(task => task.id !== taskId)
+        // const copyTasks = {...tasks}
+        // copyTasks[todolistId] = updatedTasks
+        // setTasks(copyTasks)
+        //
+        const updatedTasks = tasks[todolistId].filter(task => task.id !== taskId)
+        setTasks({...tasks, [todolistId]: updatedTasks})
+        //
+        // setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)})
+    }
+    const addTask = (title: string, todolistId: string) => {
+        const newTask: TaskType = {id: v1(), title: title, isDone: false}
+        // const tasksForUpdate = tasks[todolistId] // 3 tasks
+        // const updatedTasks = [newTask, ...tasksForUpdate] // 4 tasks
+        // const copyTasks = {...tasks}
+        // copyTasks[todolistId] = updatedTasks
+        // setTasks(copyTasks)
+        const updatedTasks = [newTask, ...tasks[todolistId]]
+        setTasks({...tasks, [todolistId]: updatedTasks})
+        //
+        // setTasks({...tasks, [todolistId]: [...tasks[todolistId], newTask]})
+    }
+    const changeTasksStatus = (taskId: string, isDone: boolean, todolistId: string) => {
+        // const tasksForUpdate = tasks[todolistId]
+        // const updatedTasks = tasksForUpdate.map(t => t.id === taskId ? {...t, isDone: isDone} : t)
+        // const copyTasks = {...tasks}
+        // copyTasks[todolistId] = updatedTasks
+        // setTasks(copyTasks)
+        //
+        const updatedTasks = tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: isDone} : t)
+        setTasks({...tasks, [todolistId]: updatedTasks})
+        //
+        // setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})}
+    }
+
 */

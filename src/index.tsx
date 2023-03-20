@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {blue, deepPurple, indigo} from "@mui/material/colors";
+import {deepPurple} from "@mui/material/colors";
 import {CssBaseline} from "@mui/material";
 
 const theme = createTheme({
@@ -15,9 +15,8 @@ const theme = createTheme({
         mode: 'light'
     },
     typography: {
-        fontSize: 14,
+        fontSize: 16,
     },
-
 })
 
 const root = ReactDOM.createRoot(

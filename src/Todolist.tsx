@@ -33,11 +33,7 @@ const Todolist: FC<TodolistPropsType> = (props): JSX.Element => {
     }
     const removeTodolist = () => props.removeTodolist(props.todolistId)
     const handlerCreator = (filter: FilteredTasksType): () => void => (): void => props.changeTodolistFilter(filter, props.todolistId)
-    const AllClassName = props.filter === 'all' ? 'secondary' : 'primary'
-    const ActiveClassName = props.filter === 'active' ? 'secondary' : 'primary'
-    const CompletedClassName = props.filter === 'completed' ? 'secondary' : 'primary'
     const changeTodolistTitle = (title: string) => props.changeTodolistTitle(title, props.todolistId)
-
     const [listRef] = useAutoAnimate<HTMLUListElement>()
 
     const tasksItems: JSX.Element[] | JSX.Element =
@@ -92,15 +88,15 @@ const Todolist: FC<TodolistPropsType> = (props): JSX.Element => {
                              fullWidth
                 >
                     <Button onClick={handlerCreator('all')}
-                            color={AllClassName}
                             sx={{mr: '5px'}}
+                            variant={props.filter === 'all' ? 'outlined' : 'contained'}
                     >All</Button>
                     <Button onClick={handlerCreator('active')}
-                            color={ActiveClassName}
+                            variant={props.filter === 'active' ? 'outlined' : 'contained'}
                             sx={{mr: '5px'}}
                     >Active</Button>
                     <Button onClick={handlerCreator('completed')}
-                            color={CompletedClassName}
+                            variant={props.filter === 'completed' ? 'outlined' : 'contained'}
                     >Completed</Button>
                 </ButtonGroup>
             </div>

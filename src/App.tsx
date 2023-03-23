@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import './App.css';
 import Todolist, {TaskType} from "./Todolist";
 import {v1} from "uuid";
-import {FilterValuesType} from "../versions/src_Todolist_4_final/src/App";
 import AddItemForm from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
@@ -23,21 +22,31 @@ function App(): JSX.Element {
 
     const todolistId_1 = v1()
     const todolistId_2 = v1()
+    const todolistId_3 = v1()
 
     const [todolists, setTodolists] = useState<Array<TodolistType>>([
         {id: todolistId_1, title: "What to learn", filter: 'all'},
-        {id: todolistId_2, title: "What to buy", filter: 'all'}
+        {id: todolistId_2, title: "What to drink", filter: 'all'},
+        {id: todolistId_3, title: "What to read", filter: 'all'},
     ])
     const [tasks, setTasks] = useState<TasksStateType>({
         [todolistId_1]: [
             {id: v1(), title: 'HTML CSS', isDone: true},
             {id: v1(), title: 'ES6 TS', isDone: true},
-            {id: v1(), title: 'REACT REDUX', isDone: false},
+            {id: v1(), title: 'REACT', isDone: false},
+            {id: v1(), title: 'REDUX', isDone: false},
         ],
         [todolistId_2]: [
             {id: v1(), title: 'WHISKEY', isDone: true},
             {id: v1(), title: 'COLA', isDone: true},
             {id: v1(), title: 'ICE', isDone: false},
+            {id: v1(), title: 'BOURBON', isDone: false},
+        ],
+        [todolistId_3]: [
+            {id: v1(), title: 'BULGAKOV', isDone: true},
+            {id: v1(), title: 'PUSHKIN', isDone: true},
+            {id: v1(), title: 'LERMONTOV', isDone: false},
+            {id: v1(), title: 'GORKIY', isDone: false},
         ],
     })
 
@@ -81,7 +90,7 @@ function App(): JSX.Element {
     }
 
     const getFilteredTasksForRender = (
-        (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
+        (tasks: Array<TaskType>, filter: FilteredTasksType): Array<TaskType> => {
             switch (filter) {
                 case 'active' :
                     return tasks.filter(task => !task.isDone)
@@ -140,7 +149,7 @@ function App(): JSX.Element {
             </Paper>
             <Container fixed>
                 <Grid container sx={{p: '10px 0'}}>
-                    <Paper elevation={5} sx={{backgroundColor: 'transparent', input: { color: 'white' } }}>
+                    <Paper elevation={5} sx={{backgroundColor: 'transparent', input: { color: 'black' } }}>
                         <AddItemForm addItem={addTodolist}/>
                     </Paper>
                 </Grid>

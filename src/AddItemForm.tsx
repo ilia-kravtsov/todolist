@@ -2,21 +2,24 @@ import React, {
     ChangeEvent,
     FC,
     KeyboardEvent,
+    memo,
     useState
 } from 'react';
 import {Button, TextField} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 
-type AddItemFormType = {
+export type AddItemFormType = {
     addItem: (title: string) => void
 }
 
-const AddItemForm: FC<AddItemFormType> = (props) => {
+export const AddItemForm: FC<AddItemFormType> = memo((props) => {
 
     let [error, setError] = useState<boolean>(false)
     let [inputValue, setInputValue] = useState<string>('')
 
-    const onKeyPressInputHandler = (event: KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && addItem()
+    const onKeyPressInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        event.key === 'Enter' && addItem()
+    }
     const onChaneInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
         error && setError(false)
         setInputValue(event.currentTarget.value)
@@ -57,7 +60,7 @@ const AddItemForm: FC<AddItemFormType> = (props) => {
             </Button>
         </div>
     );
-};
+})
 
 export default AddItemForm;
 

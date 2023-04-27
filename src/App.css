@@ -1,6 +1,7 @@
 .App {
   font-family: 'Lora', serif;
   color: black;
+  min-height: 100vh;
 }
 
 button {

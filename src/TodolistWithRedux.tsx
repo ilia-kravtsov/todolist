@@ -56,7 +56,11 @@ export const TodolistWithRedux: FC<TodolistPropsType> = memo((props): JSX.Elemen
     return (
         <div className={'todolist'}>
             <h3 className={'todoH'}>
-                <div className={'todoSpan'}><EditableSpan title={props.title} changeTitle={changeTodolistTitle}/></div>
+                <div className={'todoSpan'}>
+                    <EditableSpan title={props.title} 
+                                  changeTitle={changeTodolistTitle}
+                    />
+                </div>
                 <IconButton size={'small'}
                             color={'primary'}
                             onClick={removeTodolist}

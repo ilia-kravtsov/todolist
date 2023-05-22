@@ -2,12 +2,12 @@ import {TasksStateType} from "../App";
 import {v1} from "uuid";
 import {AddTodolistAT, RemoveTodolistAT} from "./todolist-reducer";
 
-export type RemoveTaskAT = ReturnType<typeof removeTaskAC>
-export type AaddTaskAT = ReturnType<typeof addTaskAC>
-export type ChangeTaskStatusAT = ReturnType<typeof changeTaskStatusAC>
-export type changeTasksTitleAT = ReturnType<typeof changeTasksTitleAC>
-
-export type ActionsTypes = RemoveTaskAT | AaddTaskAT | ChangeTaskStatusAT | changeTasksTitleAT | AddTodolistAT | RemoveTodolistAT
+export type ActionsTypes = ReturnType<typeof removeTaskAC>
+    | ReturnType<typeof addTaskAC>
+    | ReturnType<typeof changeTaskStatusAC>
+    | ReturnType<typeof changeTasksTitleAC>
+    | AddTodolistAT
+    | RemoveTodolistAT
 
 const initialState: TasksStateType = {}
 
@@ -35,36 +35,31 @@ export const tasksReducer = (state = initialState, action: ActionsTypes): TasksS
         }
 }
 
-export const removeTaskAC = (taskId: string, todolistId: string) => {
-    return {
+export const removeTaskAC = (taskId: string, todolistId: string) => ({
         type: 'REMOVE_TASK',
         taskId,
         todolistId
-    } as const
-}
-export const addTaskAC = (title: string, todolistId: string) => {
-    return {
+    }) as const
+
+export const addTaskAC = (title: string, todolistId: string) => ({
         type: 'ADD_TASK',
         title,
         todolistId
-    } as const
-}
-export const changeTaskStatusAC = (taskId: string, newIsDone: boolean, todolistId: string) => {
-    return {
+    }) as const
+
+export const changeTaskStatusAC = (taskId: string, newIsDone: boolean, todolistId: string) => ({
         type: 'CHANGE_TASK_STATUS',
         taskId,
         newIsDone,
         todolistId
-    } as const
-}
-export const changeTasksTitleAC = (taskId: string, title: string, todolistId: string) => {
-    return {
+    }) as const
+
+export const changeTasksTitleAC = (taskId: string, title: string, todolistId: string) => ({
         type: "CHANGE_TASK_TITLE",
         taskId,
         title,
         todolistId
-    } as const
-}
+    }) as const
 
 /*
 

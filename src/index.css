@@ -2,7 +2,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url(./backgrounds/17973908.jpg);
-  background-attachment: fixed;
-  background-size: cover;
+  background-color: #dadada;
+  /*background-attachment: fixed;*/
+  /*background-size: cover;*/
 }

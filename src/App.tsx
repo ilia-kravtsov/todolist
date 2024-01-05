@@ -125,7 +125,7 @@ function App(): JSX.Element {
                 </Grid>
             )
         })
-        : <span>Create your first Todolist</span>
+        : <span className={'create'}>Create your first Todolist</span>
 
     return (
         <div className="App">

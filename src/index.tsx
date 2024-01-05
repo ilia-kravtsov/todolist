@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {deepPurple} from "@mui/material/colors";
 import {CssBaseline} from "@mui/material";
 import AppWithReducer from "./AppWithReducer";
-import AppWithRedux from "./AppWithRedux";
 import {Provider} from "react-redux";
 import {store} from "./state/store";
 
@@ -30,7 +28,7 @@ root.render(
     <ThemeProvider theme={theme}>
         <CssBaseline/>
         <Provider store={store}>
-            <AppWithRedux/>
+            <AppWithReducer/>
         </Provider>
     </ThemeProvider>
 );

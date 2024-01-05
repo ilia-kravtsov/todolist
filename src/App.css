@@ -79,28 +79,8 @@ li:hover {
   border-radius: 5px;
 }
 
-/*.white__label {*/
-/*  color: whitesmoke !important;*/
-/*}*/
-
-/*.App {*/
-/*  padding: 30px;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  height: 1118px;*/
-/*}*/
-
-/*.App > div {*/
-/*  margin-right: 50px;*/
-/*}*/
-/*.active-filter {*/
-/*  background-color: lightgray;*/
-/*}*/
-/*.error {*/
-/*  border: 1px solid red;*/
-/*}*/
-
-/*.error_message {*/
-/*  color: red;*/
-/*  font-size: 12px;*/
-/*}*/
+.create {
+  border: 1px solid red;
+  width: 500px;
+  height: 500px;
+}
